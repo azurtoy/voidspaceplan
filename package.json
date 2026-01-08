@@ -13,10 +13,10 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "katex": "^0.16.11",
-    "react-katex": "^3.0.1"
+    "react-katex": "^3.0.1",
+    "@giscus/react": "^3.0.0"
   },
   "devDependencies": {
-    "@types/katex": "^0.16.7",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

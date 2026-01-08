@@ -2,6 +2,7 @@ import { physicsData } from '@/data/physicsData';
 import { notFound } from 'next/navigation';
 import FormulaCard from '@/components/FormulaCard';
 import ProblemsSection from '@/components/ProblemsSection';
+import Comments from '@/components/Comments';
 import Image from 'next/image';
 
 interface ChapterPageProps {
@@ -67,7 +68,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       )}
 
       {/* Navigation */}
-      <div className="flex justify-between items-center pt-8 border-t border-gray-200">
+      <div className="flex justify-between items-center pt-8 border-t border-gray-200 mb-12">
         <div>
           {chapterNumber > 15 && (
             <a
@@ -93,6 +94,9 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
           </button>
         </div>
       </div>
+
+      {/* Comments Section */}
+      <Comments chapterNumber={chapter.number} chapterTitle={chapter.title} />
     </div>
   );
 }
