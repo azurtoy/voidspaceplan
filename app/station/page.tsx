@@ -14,6 +14,7 @@ export default function StationPage() {
   const [accessCode, setAccessCode] = useState('');
   const [showAccessInput, setShowAccessInput] = useState(false);
   const [showManifesto, setShowManifesto] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
   const [error, setError] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -234,21 +235,25 @@ export default function StationPage() {
                 strokeDasharray={`${2 * Math.PI * 45 * 0.05} ${2 * Math.PI * 45}`}
                 className="transition-all duration-1000"
                 style={{
-                  filter: 'drop-shadow(0 0 8px #FF358B)',
+                  filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.7))',
                 }}
               />
             </svg>
 
             {/* Planet Center */}
             <button
-              onClick={() => !isPhysicsUnlocked && setShowAccessInput(!showAccessInput)}
-              disabled={isPhysicsUnlocked && !showAccessInput}
-              className="absolute inset-0 m-auto w-48 h-48 rounded-full bg-black/80 backdrop-blur-md border border-white/20 flex flex-col items-center justify-center hover:border-[#FF358B]/50 transition-all group"
+              onClick={() => {
+                if (!isPhysicsUnlocked) {
+                  setShowAccessInput(!showAccessInput);
+                }
+                setShowIntro(!showIntro);
+              }}
+              className="absolute inset-0 m-auto w-48 h-48 rounded-full bg-black/80 backdrop-blur-md border border-white/20 flex flex-col items-center justify-center hover:border-[#FF358B]/50 transition-all group shadow-[0_0_30px_rgba(255,53,139,0.3)]"
             >
               <h2 className="text-2xl font-light tracking-widest text-white mb-2 uppercase group-hover:text-[#FF358B] transition-colors">
                 PHYSICS
               </h2>
-              <p className="text-xs text-gray-400 tracking-wide">
+              <p className="text-xs text-gray-500 tracking-wide">
                 Halliday 12th Ed.
               </p>
               <div className={`mt-4 w-2 h-2 rounded-full ${
@@ -258,6 +263,30 @@ export default function StationPage() {
               }`} />
             </button>
           </div>
+
+          {/* Introduction - Below Planet */}
+          {showIntro && (
+            <div className="mt-8 max-w-lg mx-auto p-6 bg-black/60 backdrop-blur-md border border-white/20 animate-fade-in">
+              <h3 className="text-sm font-light tracking-widest text-[#FF358B] mb-4 uppercase text-center">
+                System Notice
+              </h3>
+              <div className="text-sm text-gray-200 font-light leading-relaxed space-y-3 mb-4">
+                <p>
+                  This is an unofficial survival guide built by a student, for students. 
+                  Expect typos, missing sections, and occasional chaos—use at your own risk.
+                </p>
+                <p className="text-xs text-gray-400 italic">
+                  "All models are wrong, but some are useful."
+                </p>
+              </div>
+              <div className="text-xs text-pink-500 font-light leading-relaxed border-t border-white/10 pt-4">
+                <p>
+                  ⚠ Currently in early Alpha/Beta stage. Content is being gradually added, starting from Chapter 15 (Oscillations). 
+                  Use at your own risk.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Passcode Input - Below Planet */}
           {showAccessInput && !isPhysicsUnlocked && (
@@ -308,17 +337,17 @@ export default function StationPage() {
                   disabled={verifying}
                   className="w-full py-6 flex items-center justify-center gap-2 disabled:opacity-50 group"
                 >
-                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 ${
-                    verifying ? 'animate-pulse' : 'group-hover:shadow-[0_0_10px_#FF358B]'
+                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse ${
+                    !verifying && 'group-hover:shadow-[0_0_10px_#FF358B]'
                   }`} />
-                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 ${
-                    verifying ? 'animate-pulse' : 'group-hover:shadow-[0_0_10px_#FF358B]'
+                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse ${
+                    !verifying && 'group-hover:shadow-[0_0_10px_#FF358B]'
                   }`} style={{ animationDelay: '0.1s' }} />
-                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 ${
-                    verifying ? 'animate-pulse' : 'group-hover:shadow-[0_0_10px_#FF358B]'
+                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse ${
+                    !verifying && 'group-hover:shadow-[0_0_10px_#FF358B]'
                   }`} style={{ animationDelay: '0.2s' }} />
-                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 ${
-                    verifying ? 'animate-pulse' : 'group-hover:shadow-[0_0_10px_#FF358B]'
+                  <div className={`w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse ${
+                    !verifying && 'group-hover:shadow-[0_0_10px_#FF358B]'
                   }`} style={{ animationDelay: '0.3s' }} />
                 </button>
               </form>
@@ -332,10 +361,10 @@ export default function StationPage() {
                 onClick={handleEnterStation}
                 className="w-full py-6 flex items-center justify-center gap-2 group"
               >
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 group-hover:shadow-[0_0_10px_#FF358B]" />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 group-hover:shadow-[0_0_10px_#FF358B]" />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 group-hover:shadow-[0_0_10px_#FF358B]" />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 group-hover:shadow-[0_0_10px_#FF358B]" />
+                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" />
+                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.1s' }} />
+                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.2s' }} />
+                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.3s' }} />
               </button>
             </div>
           )}

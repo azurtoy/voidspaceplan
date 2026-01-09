@@ -320,7 +320,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
             {/* Status Message */}
             <div className="text-xs text-pink-500 leading-relaxed">
               <p>
-                갓 만들었고 내용들은 이제 추가해나가는 중입니다. 현재 15과(Oscillations)부터 시작하며, 아직 초기 단계(Alpha)입니다.
+                Currently in early Alpha stage. Content is being gradually added, starting from Chapter 15 (Oscillations).
               </p>
             </div>
           </div>
