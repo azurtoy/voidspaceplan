@@ -57,26 +57,10 @@ export async function signup(email: string, password: string, nickname: string) 
     return { success: false, error: 'Sign up failed' };
   }
 
-  // Create profile entry
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .insert({
-      id: data.user.id,
-      nickname,
-      is_physics_unlocked: false,
-    });
-
-  if (profileError) {
-    console.error('❌ Failed to create profile:', profileError.message);
-    // Profile creation failed - this is a critical error
-    // Note: User account exists but profile wasn't created
-    return { 
-      success: false, 
-      error: 'Failed to create user profile. Please contact support.' 
-    };
-  }
-
+  // Note: Profile is automatically created by database trigger (handle_new_user)
+  // No need to manually insert into profiles table
   console.log('✅ Sign up successful:', data.user.email);
+  console.log('   Profile will be auto-created by database trigger');
 
   revalidatePath('/', 'layout');
   return { success: true };

@@ -2,7 +2,6 @@ import { physicsData } from '@/data/physicsData';
 import { notFound } from 'next/navigation';
 import FormulaCard from '@/components/FormulaCard';
 import ProblemsSection from '@/components/ProblemsSection';
-import Comments from '@/components/Comments';
 import Image from 'next/image';
 
 interface ChapterPageProps {
@@ -11,9 +10,9 @@ interface ChapterPageProps {
 
 export default async function ChapterPage({ params }: ChapterPageProps) {
   const { id } = await params;
-  const chapterNumber = parseInt(id);
+  const chapterId = id;
   
-  const chapter = physicsData.chapters.find(ch => ch.number === chapterNumber);
+  const chapter = physicsData.find(ch => ch.id === chapterId);
 
   if (!chapter) {
     notFound();
@@ -24,22 +23,11 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       {/* Chapter Header */}
       <div className="mb-10">
         <div className="text-sm text-lca-pink font-semibold mb-2">
-          CHAPTER {chapter.number}
+          CHAPTER {chapter.id}
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           {chapter.title}
         </h1>
-        
-        {chapter.imageUrl && (
-          <div className="relative w-full h-64 mb-6 rounded-lg overflow-hidden bg-gray-100">
-            <Image
-              src={chapter.imageUrl}
-              alt={chapter.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
 
         <div className="paper-card bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">Chapter Overview</h2>
@@ -51,11 +39,11 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       <div className="mb-12">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Key Formulas</h2>
         <p className="text-gray-600 mb-6">
-          All formulas include textbook page references and links to related practice problems.
+          Essential formulas for this chapter.
         </p>
         <div>
-          {chapter.formulas.map((formula) => (
-            <FormulaCard key={formula.id} formula={formula} />
+          {chapter.formulas.map((formula, idx) => (
+            <FormulaCard key={idx} formula={formula} />
           ))}
         </div>
       </div>
@@ -68,41 +56,27 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       )}
 
       {/* Navigation */}
-      <div className="flex justify-between items-center pt-8 border-t border-gray-200 mb-12">
-        <div>
-          {chapterNumber > 15 && (
-            <a
-              href={`/study/chapter/${chapterNumber - 1}`}
-              className="btn btn-secondary"
-            >
-              ← Previous Chapter
-            </a>
-          )}
-        </div>
-        <div>
-          <a
-            href="/study/formulas"
-            className="btn btn-secondary"
-          >
-            📋 View All Formulas
-          </a>
-        </div>
-        <div>
-          {/* Add next chapter logic when more chapters are available */}
-          <button disabled className="btn btn-secondary opacity-50 cursor-not-allowed">
-            Next Chapter →
-          </button>
-        </div>
+      <div className="flex justify-center items-center pt-8 border-t border-gray-200 mb-12">
+        <a
+          href="/study"
+          className="btn btn-secondary"
+        >
+          ← Back to Study Dashboard
+        </a>
       </div>
 
-      {/* Comments Section */}
-      <Comments chapterNumber={chapter.number} chapterTitle={chapter.title} />
+      {/* Comments Section - Placeholder for Phase 3 */}
+      <div className="text-center py-8 border-t border-gray-200">
+        <p className="text-gray-500 text-sm">
+          Comments system initializing... (Phase 3)
+        </p>
+      </div>
     </div>
   );
 }
 
 export async function generateStaticParams() {
-  return physicsData.chapters.map((chapter) => ({
-    id: chapter.number.toString(),
+  return physicsData.map((chapter) => ({
+    id: chapter.id,
   }));
 }
