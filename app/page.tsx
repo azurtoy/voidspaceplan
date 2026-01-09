@@ -21,27 +21,27 @@ export default function LoginPage() {
     setIsPending(true);
 
     try {
+      let result;
       if (isSignUp) {
-        await signup(email, password, nickname);
-        // If we reach here without error, redirect will happen from server action
+        result = await signup(email, password, nickname);
       } else {
-        await login(email, password);
-        // If we reach here without error, redirect will happen from server action
+        result = await login(email, password);
       }
-      
-      // Server action's redirect() will handle navigation
-      // This code only runs if redirect fails or returns an error
-      router.refresh();
-      router.push('/station');
+
+      if (result.success) {
+        // Success! Redirect to station
+        console.log('✅ Authentication successful, redirecting to /station');
+        router.push('/station');
+        router.refresh();
+      } else {
+        // Error from server
+        setError(result.error || 'Authentication failed');
+        setIsPending(false);
+      }
     } catch (err: any) {
-      // Check if it's a redirect (Next.js throws during redirect in server actions)
-      if (err?.message?.includes('NEXT_REDIRECT')) {
-        // This is expected - redirect is happening
-        return;
-      }
-      
-      // Real error occurred
-      setError(err?.message || 'An unexpected error occurred');
+      // Unexpected error
+      console.error('Unexpected error:', err);
+      setError('An unexpected error occurred');
       setIsPending(false);
     }
   };
