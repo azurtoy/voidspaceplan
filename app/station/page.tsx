@@ -53,7 +53,7 @@ export default function StationPage() {
 
     try {
       // Check access code client-side
-      const correctCode = '1234'; // TODO: Get from env
+      const correctCode = '1234';
       
       if (accessCode !== correctCode) {
         setError('⚠ INVALID ACCESS CODE');
