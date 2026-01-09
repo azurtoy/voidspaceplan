@@ -32,5 +32,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (user) {
+    console.log('✅ Middleware: User authenticated -', user.email);
+  } else {
+    console.log('⚠️ Middleware: No user session found');
+  }
+
   return { user, supabaseResponse };
 }

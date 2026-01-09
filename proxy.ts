@@ -5,13 +5,21 @@ import { createServerClient } from '@supabase/ssr';
 export default async function proxy(request: NextRequest) {
   const { user, supabaseResponse } = await updateSession(request);
 
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('🔍 PROXY:', request.nextUrl.pathname);
+  console.log('   User:', user ? user.email : 'NOT AUTHENTICATED');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
   // Protect /station and /study routes
   if (request.nextUrl.pathname.startsWith('/station') || request.nextUrl.pathname.startsWith('/study')) {
     if (!user) {
       // Redirect to login if not authenticated
+      console.log('⚠️ Access denied: User not authenticated, redirecting to /');
       const redirectUrl = new URL('/', request.url);
       return NextResponse.redirect(redirectUrl);
     }
+    
+    console.log('✅ Access granted to', request.nextUrl.pathname);
 
     // Additional check for /study routes: verify physics is unlocked
     if (request.nextUrl.pathname.startsWith('/study')) {
@@ -51,10 +59,12 @@ export default async function proxy(request: NextRequest) {
 
   // If authenticated user tries to access root, redirect to station
   if (request.nextUrl.pathname === '/' && user) {
+    console.log('✅ Authenticated user on /, redirecting to /station');
     const redirectUrl = new URL('/station', request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
+  console.log('✅ Proxy complete, proceeding normally');
   return supabaseResponse;
 }
 

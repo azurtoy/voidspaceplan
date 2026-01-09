@@ -28,12 +28,20 @@ export default function LoginPage() {
         result = await login(email, password);
       }
 
+      console.log('Server action result:', result);
+
       if (result.success) {
-        // Success! Force full page redirect to station
-        console.log('✅ Authentication successful, redirecting to /station');
+        // Success! Wait a bit for cookies to be set, then redirect
+        console.log('✅ Authentication successful');
+        
+        // Give browser time to set cookies
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        console.log('🚀 Redirecting to /station...');
         window.location.href = '/station';
       } else {
         // Error from server
+        console.error('❌ Login failed:', result.error);
         setError(result.error || 'Authentication failed');
         setIsPending(false);
       }

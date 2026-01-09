@@ -22,8 +22,11 @@ export async function login(email: string, password: string) {
   }
 
   console.log('✅ Login successful:', data.user?.email);
+  console.log('   Session:', data.session ? 'CREATED' : 'NO SESSION');
 
   revalidatePath('/', 'layout');
+  revalidatePath('/station', 'page');
+  
   return { success: true };
 }
 
