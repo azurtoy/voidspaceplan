@@ -193,9 +193,9 @@ export default function StationPage() {
           </div>
 
           {/* Subtitle: Introduction Text */}
-          <p className="text-sm text-gray-400 leading-relaxed max-w-5xl">
+          <p className="text-sm text-gray-200 leading-relaxed max-w-5xl">
             Unofficial survival guide for the Physics II crew.{' '}
-            <span className="text-orange-400">
+            <span className="text-[#FF358B]">
               Strictly for our current cohort—please keep the passcode secure.
             </span>{' '}
             Built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 

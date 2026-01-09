@@ -310,7 +310,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
             </div>
 
             {/* Disclaimer Text */}
-            <div className="text-xs text-gray-100 leading-relaxed mb-3">
+            <div className="text-xs text-gray-50 leading-relaxed mb-3">
               <p>
                 Unofficial survival guide built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 
                 "All models are wrong, but some are useful."
@@ -320,7 +320,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
             {/* Status Message */}
             <div className="text-xs text-pink-500 leading-relaxed">
               <p>
-                Currently in early Alpha stage. Content is being gradually added, starting from Chapter 15 (Oscillations).
+                갓 만들었고 내용들은 이제 추가해나가는 중입니다. Currently in early Alpha stage. Content is being gradually added, starting from Chapter 15 (Oscillations).
               </p>
             </div>
           </div>
