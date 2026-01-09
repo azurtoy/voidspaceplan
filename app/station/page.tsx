@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import SignalWidget from '@/components/SignalWidget';
 import DashboardChat from '@/components/DashboardChat';
+import SurvivalManual from '@/components/SurvivalManual';
 
 export default function StationPage() {
   const router = useRouter();
@@ -229,6 +230,11 @@ export default function StationPage() {
         <div>Current Date: {currentDate}</div>
         <div>Ver: Alpha 0.5</div>
         <div>Last Update: Ch.15 Oscillations</div>
+      </div>
+
+      {/* Survival Manual - Tactical Briefing */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-8">
+        <SurvivalManual />
       </div>
 
       {/* Main Content - Planetary System */}
