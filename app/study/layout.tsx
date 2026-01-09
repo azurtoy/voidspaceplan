@@ -90,8 +90,8 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
       >
         <div className="flex flex-col h-full pb-safe">
           
-          {/* Header */}
-          <div className="p-4 md:p-6 border-b border-white/10 z-50">
+          {/* Header - Increased padding for mobile visibility */}
+          <div className="p-6 md:p-8 border-b border-white/10 z-50">
             <button 
               onClick={() => window.location.reload()} 
               className="block w-full text-left"
@@ -142,8 +142,8 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
             </nav>
           </div>
 
-          {/* Footer - Formula Sheet & Signal & Logout */}
-          <div className="border-t border-white/10 pb-20 md:pb-6">
+          {/* Footer - Formula Sheet & Signal & Logout - Moved up significantly */}
+          <div className="border-t border-white/10 pb-28 md:pb-10">
             <Link 
               href="/study/formulas"
               onClick={() => setSidebarOpen(false)}
