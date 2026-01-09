@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Formula } from '@/types/physics';
 import FormulaCard from './FormulaCard';
 
 interface FormulaSearchProps {
-  formulas: Formula[];
+  formulas: any[];
 }
 
 export default function FormulaSearch({ formulas }: FormulaSearchProps) {
@@ -18,12 +17,12 @@ export default function FormulaSearch({ formulas }: FormulaSearchProps) {
     return formulas.filter(
       (formula) =>
         formula.name.toLowerCase().includes(term) ||
-        formula.description.toLowerCase().includes(term) ||
+        (formula.description && formula.description.toLowerCase().includes(term)) ||
         formula.latex.toLowerCase().includes(term) ||
-        formula.variables?.some(v => 
+        (formula.variables && formula.variables.some((v: any) => 
           v.meaning.toLowerCase().includes(term) ||
           v.symbol.toLowerCase().includes(term)
-        )
+        ))
     );
   }, [formulas, searchTerm]);
 
@@ -36,7 +35,7 @@ export default function FormulaSearch({ formulas }: FormulaSearchProps) {
         <input
           id="formula-search"
           type="text"
-          placeholder="Search by name, description, or variable..."
+          placeholder="Search by name or formula..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -49,8 +48,8 @@ export default function FormulaSearch({ formulas }: FormulaSearchProps) {
 
       <div>
         {filteredFormulas.length > 0 ? (
-          filteredFormulas.map((formula) => (
-            <FormulaCard key={formula.id} formula={formula} />
+          filteredFormulas.map((formula, idx) => (
+            <FormulaCard key={idx} formula={formula} />
           ))
         ) : (
           <div className="text-center py-12 text-gray-500">
