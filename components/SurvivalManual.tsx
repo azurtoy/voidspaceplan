@@ -21,7 +21,7 @@ const manualSections: ManualSection[] = [
     content: "Taken together, these observations suggest a course structure where students reconstruct the content through the textbook and problem solving, rather than receiving slow step-by-step explanation in lectures.\nThis is not about blame. It is about operating style.\n\n• When physics is deeply familiar, it is easy to compress explanations\n• Efficiency and clean time management may be a priority\n• Avoiding explicit exam hints can be seen as fairness"
   },
   {
-    title: "3) Where grades are decided: Repeatable accuracy, not "feeling you get it"",
+    title: "3) Where grades are decided: Repeatable accuracy, not \"feeling you get it\"",
     content: "In courses like this, marks often come down to execution:\n\n• choosing the correct equation\n• setting initial conditions, coordinates, and signs correctly\n• carrying units consistently\n• maintaining a clean logical chain of steps\n\nRepeatability beats one-time insight. The student who can run the same type ten times without repeating the same mistake usually wins."
   },
   {

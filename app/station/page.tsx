@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import SignalWidget from '@/components/SignalWidget';
 import DashboardChat from '@/components/DashboardChat';
 import SurvivalManual from '@/components/SurvivalManual';
+import DataUplinks from '@/components/DataUplinks';
 
 export default function StationPage() {
   const router = useRouter();
@@ -235,6 +236,7 @@ export default function StationPage() {
       {/* Survival Manual - Tactical Briefing */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-8">
         <SurvivalManual />
+        <DataUplinks />
       </div>
 
       {/* Main Content - Planetary System */}
