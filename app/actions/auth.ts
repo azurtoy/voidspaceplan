@@ -2,7 +2,6 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -25,7 +24,7 @@ export async function login(email: string, password: string) {
   console.log('✅ Login successful:', data.user?.email);
 
   revalidatePath('/', 'layout');
-  redirect('/station');
+  return { success: true };
 }
 
 export async function signup(email: string, password: string, nickname: string) {
@@ -64,7 +63,7 @@ export async function signup(email: string, password: string, nickname: string) 
   console.log('   Profile will be auto-created by database trigger');
 
   revalidatePath('/', 'layout');
-  redirect('/station');
+  return { success: true };
 }
 
 export async function logout() {
