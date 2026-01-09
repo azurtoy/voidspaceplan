@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { authenticateUser } from '@/app/actions/auth';
+import { verifyAccessCode } from '@/app/actions/station';
 import { useRouter } from 'next/navigation';
 
 interface MinimalCourseBoxProps {
@@ -15,7 +15,6 @@ export default function MinimalCourseBox({ title, subtitle }: MinimalCourseBoxPr
   const [isPending, setIsPending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shake, setShake] = useState(false);
-  const [keepSignalAlive, setKeepSignalAlive] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
@@ -60,11 +59,10 @@ export default function MinimalCourseBox({ title, subtitle }: MinimalCourseBoxPr
     setShake(false);
     
     const formData = new FormData(e.currentTarget);
-    formData.append('course', 'physics');
-    formData.append('keepSignalAlive', keepSignalAlive.toString());
+    const password = formData.get('password') as string;
     
     // Step 2: Call Server Action
-    const result = await authenticateUser(formData);
+    const result = await verifyAccessCode(password);
     
     console.log('📬 Server response:', result);
     setIsPending(false);
@@ -181,29 +179,6 @@ export default function MinimalCourseBox({ title, subtitle }: MinimalCourseBoxPr
                 )}
               </div>
 
-              {/* Keep Signal Alive Toggle */}
-              <div className="flex items-center justify-center gap-3 py-2">
-                <button
-                  type="button"
-                  onClick={() => setKeepSignalAlive(!keepSignalAlive)}
-                  disabled={isSuccess}
-                  className={`
-                    w-11 h-6 rounded-full transition-all duration-500 relative flex-shrink-0
-                    ${keepSignalAlive ? 'bg-lca-pink shadow-[0_0_10px_rgba(255,53,139,0.5)]' : 'bg-gray-300'}
-                  `}
-                  aria-label="Keep signal alive"
-                >
-                  <div
-                    className={`
-                      absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-500
-                      ${keepSignalAlive ? 'translate-x-5' : 'translate-x-0.5'}
-                    `}
-                  />
-                </button>
-                <span className="text-xs sm:text-sm font-extralight text-gray-500 tracking-wider">
-                  Keep Signal Alive (14 days)
-                </span>
-              </div>
 
               {/* Submit Button - MUST be type="submit" */}
               <button
