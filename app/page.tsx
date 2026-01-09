@@ -69,11 +69,13 @@ export default function LoginPage() {
         addLog(`✅ Login successful! Session: ${data.session ? 'YES' : 'NO'}`);
       }
       
-      // Wait a moment for cookies to settle
-      await new Promise(resolve => setTimeout(resolve, 100));
+      addLog('⏳ Waiting for cookies to be set...');
+      // Small delay for browser to process cookies
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      addLog('🚀 Redirecting to /station...');
-      window.location.href = '/station';
+      addLog('🔄 Reloading to sync session...');
+      // Reload current page - proxy will redirect authenticated users to /station
+      window.location.reload();
       
     } catch (err: any) {
       addLog(`🔴 EXCEPTION: ${err.message}`);
