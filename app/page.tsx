@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { login, signup } from '@/app/actions/auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,51 +31,32 @@ export default function LoginPage() {
     addLog('🟢 FORM SUBMITTED');
 
     try {
-      const supabase = createClient();
+      addLog('🟡 Calling server action...');
       
+      let result;
       if (isSignUp) {
-        addLog('🟡 Creating account...');
-        
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { nickname }
-          }
-        });
-        
-        if (error) {
-          addLog(`🔴 Sign up failed: ${error.message}`);
-          setError(error.message);
-          setIsPending(false);
-          return;
-        }
-        
-        addLog('✅ Account created! Redirecting...');
+        result = await signup(email, password, nickname);
       } else {
-        addLog('🟡 Logging in...');
-        
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        
-        if (error) {
-          addLog(`🔴 Login failed: ${error.message}`);
-          setError(error.message);
-          setIsPending(false);
-          return;
-        }
-        
-        addLog(`✅ Login successful! Session: ${data.session ? 'YES' : 'NO'}`);
+        result = await login(email, password);
       }
       
-      addLog('⏳ Waiting for cookies to be set...');
-      // Small delay for browser to process cookies
-      await new Promise(resolve => setTimeout(resolve, 500));
+      addLog(`📥 Server response: ${JSON.stringify(result)}`);
       
-      addLog('🔄 Reloading to sync session...');
-      // Reload current page - proxy will redirect authenticated users to /station
+      if (!result || !result.success) {
+        addLog(`🔴 Failed: ${result?.error || 'Unknown error'}`);
+        setError(result?.error || 'Authentication failed');
+        setIsPending(false);
+        return;
+      }
+      
+      addLog('✅ Server confirmed login!');
+      addLog('⏳ Waiting for session to propagate...');
+      
+      // Wait for server-set cookies to be available
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      addLog('🔄 Reloading page...');
+      // Reload - proxy will see cookies and redirect to /station
       window.location.reload();
       
     } catch (err: any) {
