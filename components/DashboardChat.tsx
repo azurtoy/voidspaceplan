@@ -102,7 +102,8 @@ export default function DashboardChat() {
 
     if (error) {
       console.error('Error sending message:', error);
-      alert('Failed to send message');
+      console.error('Error details:', JSON.stringify(error, null, 2));
+      alert(`Failed to send message: ${error.message || 'Unknown error'}`);
     } else {
       setNewMessage('');
     }
