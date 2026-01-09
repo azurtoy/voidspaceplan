@@ -14,13 +14,24 @@ export default function LoginPage() {
   const [nickname, setNickname] = useState('');
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState('');
+  const [debugLog, setDebugLog] = useState<string[]>([]);
+
+  const addLog = (msg: string) => {
+    setDebugLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
+    console.log(msg);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setDebugLog([]);
     setIsPending(true);
+    
+    addLog('🟢 FORM SUBMITTED');
 
     try {
+      addLog('🟡 Calling server action...');
+      
       let result;
       if (isSignUp) {
         result = await signup(email, password, nickname);
@@ -28,26 +39,29 @@ export default function LoginPage() {
         result = await login(email, password);
       }
 
-      console.log('Server action result:', result);
+      addLog(`🟡 Server returned: ${JSON.stringify(result)}`);
+
+      if (!result) {
+        addLog('🔴 ERROR: No result!');
+        setError('Server did not respond');
+        setIsPending(false);
+        return;
+      }
 
       if (result.success) {
-        // Success! Wait a bit for cookies to be set, then redirect
-        console.log('✅ Authentication successful');
+        addLog('🟢 SUCCESS! Redirecting...');
         
-        // Give browser time to set cookies
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
-        console.log('🚀 Redirecting to /station...');
-        window.location.href = '/station';
+        addLog('🚀 Executing window.location.replace...');
+        window.location.replace('/station');
       } else {
-        // Error from server
-        console.error('❌ Login failed:', result.error);
+        addLog(`🔴 FAILED: ${result.error}`);
         setError(result.error || 'Authentication failed');
         setIsPending(false);
       }
     } catch (err: any) {
-      // Unexpected error
-      console.error('Unexpected error:', err);
+      addLog(`🔴 EXCEPTION: ${err.message}`);
       setError('An unexpected error occurred');
       setIsPending(false);
     }
@@ -144,6 +158,15 @@ export default function LoginPage() {
                 minLength={6}
               />
             </div>
+
+            {/* Debug Log */}
+            {debugLog.length > 0 && (
+              <div className="text-xs bg-gray-100 p-3 rounded max-h-32 overflow-y-auto font-mono">
+                {debugLog.map((log, i) => (
+                  <div key={i}>{log}</div>
+                ))}
+              </div>
+            )}
 
             {/* Error Message */}
             {error && (
