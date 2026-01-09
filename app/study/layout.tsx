@@ -88,7 +88,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full pb-safe">
           
           {/* Header */}
           <div className="p-4 md:p-6 border-b border-white/10 z-50">
@@ -143,7 +143,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* Footer - Formula Sheet & Signal & Logout */}
-          <div className="border-t border-white/10 pb-10 md:pb-6">
+          <div className="border-t border-white/10 pb-20 md:pb-6">
             <Link 
               href="/study/formulas"
               onClick={() => setSidebarOpen(false)}
@@ -310,7 +310,7 @@ export default function StudyLayout({ children }: { children: React.ReactNode })
             </div>
 
             {/* Disclaimer Text */}
-            <div className="text-xs text-gray-300 leading-relaxed mb-3">
+            <div className="text-xs text-gray-100 leading-relaxed mb-3">
               <p>
                 Unofficial survival guide built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 
                 "All models are wrong, but some are useful."

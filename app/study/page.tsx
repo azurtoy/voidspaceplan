@@ -20,7 +20,7 @@ export default function StudyPage() {
             PHYSICS II
           </h1>
           
-          <p className="text-sm text-gray-300 font-light tracking-wide mb-2">
+          <p className="text-sm text-gray-200 font-light tracking-wide mb-2">
             Halliday 12th Edition • Chapters 15-34
           </p>
 
@@ -34,19 +34,19 @@ export default function StudyPage() {
 
         {/* Introduction */}
         <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded">
-          <div className="text-sm text-gray-300 font-light leading-relaxed mb-4 space-y-2">
+          <div className="text-sm text-gray-100 font-light leading-relaxed mb-4 space-y-2">
             <p>"Unofficial survival guide for the Physics II crew.</p>
             <p>To ensure a safe landing for everyone, please keep these coordinates within our cohort.</p>
             <p>Vent, discuss, or fix errors freely — this space is ours."</p>
           </div>
-          <p className="text-xs text-gray-500 tracking-wider">
+          <p className="text-xs text-gray-300 tracking-wider">
             — DCEK
           </p>
         </div>
 
         {/* Mission Control */}
         <div className="mb-8">
-          <h2 className="text-sm font-light tracking-[0.3em] text-gray-400 mb-4">
+          <h2 className="text-sm font-light tracking-[0.3em] text-gray-300 mb-4">
             MISSION CONTROL
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -62,7 +62,7 @@ export default function StudyPage() {
                   Formula Database
                 </h3>
               </div>
-              <p className="text-xs text-gray-400 pl-7">Quick reference for all formulas</p>
+              <p className="text-xs text-gray-200 pl-7">Quick reference for all formulas</p>
             </Link>
 
             <Link 
@@ -75,14 +75,14 @@ export default function StudyPage() {
                   Begin Mission
                 </h3>
               </div>
-              <p className="text-xs text-gray-400 pl-5">Ch 15. Oscillations</p>
+              <p className="text-xs text-gray-200 pl-5">Ch 15. Oscillations</p>
             </Link>
           </div>
         </div>
 
         {/* Chapter Grid */}
         <div>
-          <h2 className="text-sm font-light tracking-[0.3em] text-gray-400 mb-4">
+          <h2 className="text-sm font-light tracking-[0.3em] text-gray-300 mb-4">
             ALL CHAPTERS
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -95,7 +95,7 @@ export default function StudyPage() {
                 <div className="text-2xl font-light text-[#FF358B] mb-2">
                   {chapter.id}
                 </div>
-                <div className="text-xs text-gray-300 font-light group-hover:text-white transition-colors">
+                <div className="text-xs text-gray-200 font-light group-hover:text-white transition-colors">
                   {chapter.title.replace(/^Ch \d+\.\s*/, '')}
                 </div>
               </Link>
