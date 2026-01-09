@@ -22,7 +22,7 @@ const uplinks: UplinkItem[] = [
     id: 'wileyplus',
     label: 'WileyPLUS',
     icon: <BookOpen className="w-5 h-5" />,
-    link: 'https://www.wileyplus.com',
+    link: 'https://learn.wileyplus.com/courses/196999',
     type: 'external'
   },
   {

@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { physicsData } from '@/data/physicsData';
+import SurvivalManual from '@/components/SurvivalManual';
+import DataUplinks from '@/components/DataUplinks';
+import DashboardChat from '@/components/DashboardChat';
 
 export default function StudyPage() {
   return (
@@ -20,9 +23,16 @@ export default function StudyPage() {
             PHYSICS II
           </h1>
           
-          <p className="text-sm text-gray-200 font-light tracking-wide mb-2">
-            Halliday 12th Edition • Chapters 15-34
-          </p>
+          {/* Description */}
+          <div className="text-sm text-gray-200 leading-relaxed max-w-3xl mx-auto mb-4">
+            <p>Unofficial survival guide for the Physics II crew.{' '}
+            <span className="text-[#FF358B]">
+              Strictly for our current cohort—please keep the passcode secure.
+            </span>{' '}
+            Built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 
+            &quot;All models are wrong, but some are useful.&quot; (Alpha Stage / Starting from Ch.15)</p>
+            <p className="text-xs text-gray-400 mt-2">— DCEK</p>
+          </div>
 
           {/* Welcome Message */}
           <div className="mt-6 inline-block">
@@ -32,16 +42,19 @@ export default function StudyPage() {
           </div>
         </div>
 
-        {/* Introduction */}
+        {/* Survival Manual */}
+        <div className="mb-8">
+          <SurvivalManual />
+        </div>
+
+        {/* Data Uplinks */}
+        <div className="mb-8">
+          <DataUplinks />
+        </div>
+
+        {/* Live Chat */}
         <div className="mb-12 p-6 bg-white/5 border border-white/10 rounded">
-          <div className="text-sm text-gray-100 font-light leading-relaxed mb-4 space-y-2">
-            <p>"Unofficial survival guide for the Physics II crew.</p>
-            <p>To ensure a safe landing for everyone, please keep these coordinates within our cohort.</p>
-            <p>Vent, discuss, or fix errors freely — this space is ours."</p>
-          </div>
-          <p className="text-xs text-gray-300 tracking-wider">
-            — DCEK
-          </p>
+          <DashboardChat />
         </div>
 
         {/* Mission Control */}

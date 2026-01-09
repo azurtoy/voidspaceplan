@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import SignalWidget from '@/components/SignalWidget';
-import DashboardChat from '@/components/DashboardChat';
-import SurvivalManual from '@/components/SurvivalManual';
-import DataUplinks from '@/components/DataUplinks';
 
 export default function StationPage() {
   const router = useRouter();
@@ -16,8 +13,6 @@ export default function StationPage() {
   const [isPhysicsUnlocked, setIsPhysicsUnlocked] = useState(false);
   const [accessCode, setAccessCode] = useState('');
   const [showAccessInput, setShowAccessInput] = useState(false);
-  const [showManifesto, setShowManifesto] = useState(false);
-  const [showIntro, setShowIntro] = useState(false);
   const [error, setError] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -93,22 +88,17 @@ export default function StationPage() {
         return;
       }
       
-      // Success!
+      // Success! Navigate to /study
       setIsPhysicsUnlocked(true);
-      setShowAccessInput(false);
       setAccessCode('');
       setVerifying(false);
+      router.push('/study');
       
     } catch (err) {
       console.error('Exception:', err);
       setError('⚠ VERIFICATION FAILED');
       setVerifying(false);
     }
-  };
-
-  // Handle Enter Station (Route to /study)
-  const handleEnterStation = () => {
-    router.push('/study');
   };
 
   // Current date
@@ -153,15 +143,9 @@ export default function StationPage() {
       <header className="relative z-10 border-b border-white/10 bg-black/40 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
           {/* Top Row: Mission + Welcome + Actions */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between">
             {/* Left: Mission + Welcome */}
             <div className="flex items-center gap-2">
-              {/* Pink Station Dot */}
-              <button
-                onClick={() => setShowManifesto(!showManifesto)}
-                className="w-2 h-2 bg-[#FF358B] rounded-full shadow-[0_0_10px_#FF358B] hover:shadow-[0_0_15px_#FF358B] transition-all mr-3"
-                title="DCEK Manifesto"
-              />
               <h1 className="text-sm font-light tracking-widest text-white uppercase">
                 SELECT YOUR MISSION
               </h1>
@@ -193,36 +177,7 @@ export default function StationPage() {
               </button>
             </div>
           </div>
-
-          {/* Subtitle: Introduction Text */}
-          <p className="text-sm text-gray-200 leading-relaxed max-w-5xl">
-            Unofficial survival guide for the Physics II crew.{' '}
-            <span className="text-[#FF358B]">
-              Strictly for our current cohort—please keep the passcode secure.
-            </span>{' '}
-            Built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 
-            &quot;All models are wrong, but some are useful.&quot; (Alpha Stage / Starting from Ch.15)
-          </p>
         </div>
-
-        {/* DCEK Manifesto - Slide Down */}
-        {showManifesto && (
-          <div className="border-t border-white/10 bg-black/60 backdrop-blur-md animate-slide-down">
-            <div className="max-w-4xl mx-auto px-6 py-8">
-              <h2 className="text-lg font-light tracking-widest text-[#FF358B] mb-4 uppercase">
-                DCEK Manifesto
-              </h2>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Unofficial survival guide for the Physics II crew.{' '}
-                <span className="text-orange-400">
-                  Strictly for our current cohort—please keep the passcode secure.
-                </span>{' '}
-                Built by a student, for students. Expect typos, missing sections, and occasional chaos—use at your own risk. 
-                &quot;All models are wrong, but some are useful.&quot; (Alpha Stage / Starting from Ch.15)
-              </p>
-            </div>
-          </div>
-        )}
       </header>
 
       {/* HUD - Bottom Left */}
@@ -231,12 +186,6 @@ export default function StationPage() {
         <div>Current Date: {currentDate}</div>
         <div>Ver: Alpha 0.5</div>
         <div>Last Update: Ch.15 Oscillations</div>
-      </div>
-
-      {/* Survival Manual - Tactical Briefing */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-8">
-        <SurvivalManual />
-        <DataUplinks />
       </div>
 
       {/* Main Content - Planetary System */}
@@ -276,10 +225,11 @@ export default function StationPage() {
             {/* Planet Center */}
             <button
               onClick={() => {
-                if (!isPhysicsUnlocked) {
+                if (isPhysicsUnlocked) {
+                  router.push('/study');
+                } else {
                   setShowAccessInput(!showAccessInput);
                 }
-                setShowIntro(!showIntro);
               }}
               className="absolute inset-0 m-auto w-48 h-48 rounded-full bg-black/80 backdrop-blur-md border border-white/20 flex flex-col items-center justify-center hover:border-[#FF358B]/50 transition-all group shadow-[0_0_30px_rgba(255,53,139,0.3)]"
             >
@@ -293,13 +243,6 @@ export default function StationPage() {
               }`} />
             </button>
           </div>
-
-          {/* Live Chat - Below Planet */}
-          {showIntro && (
-            <div className="mt-8 max-w-2xl mx-auto p-6 bg-black/60 backdrop-blur-md border border-white/20 animate-fade-in">
-              <DashboardChat />
-            </div>
-          )}
 
           {/* Passcode Input - Below Planet */}
           {showAccessInput && !isPhysicsUnlocked && (
@@ -367,21 +310,6 @@ export default function StationPage() {
             </div>
           )}
 
-          {/* Enter Station - If Unlocked */}
-          {isPhysicsUnlocked && !showAccessInput && (
-            <div className="mt-8 max-w-sm mx-auto">
-              <button
-                onClick={handleEnterStation}
-                className="w-full py-6 flex items-center justify-center gap-2 group"
-              >
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.1s' }} />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.2s' }} />
-                <div className="w-3 h-3 bg-[#FF358B] transition-all duration-300 animate-pulse group-hover:shadow-[0_0_10px_#FF358B]" style={{ animationDelay: '0.3s' }} />
-              </button>
-            </div>
-          )}
-
         </div>
       </main>
 
@@ -395,21 +323,6 @@ export default function StationPage() {
             opacity: 1;
             transform: scale(1.5);
           }
-        }
-
-        @keyframes slide-down {
-          from {
-            opacity: 0;
-            max-height: 0;
-          }
-          to {
-            opacity: 1;
-            max-height: 500px;
-          }
-        }
-
-        .animate-slide-down {
-          animation: slide-down 0.3s ease-out forwards;
         }
       `}</style>
     </div>
