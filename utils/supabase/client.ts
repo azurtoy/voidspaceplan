@@ -9,7 +9,7 @@ export function createClient() {
       auth: {
         persistSession: true,
         storageKey: `sb-${process.env.NEXT_PUBLIC_SUPABASE_URL!.split('//')[1].split('.')[0]}-auth-token`,
-        storage: window.localStorage,
+        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
         autoRefreshToken: true,
         detectSessionInUrl: false,
       },
