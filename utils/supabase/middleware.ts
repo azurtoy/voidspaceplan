@@ -15,8 +15,16 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
-          cookiesToSet.forEach(({ name, value, options }) => {
+          // 1. 먼저 request.cookies에 심어서 다음 요청에서 읽을 수 있도록 함
+          cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
+          });
+          
+          // 2. 응답 객체를 새로 생성하여 업데이트된 request를 반영
+          supabaseResponse = NextResponse.next({ request });
+          
+          // 3. 브라우저 응답에도 쿠키를 설정
+          cookiesToSet.forEach(({ name, value, options }) => {
             supabaseResponse.cookies.set(name, value, options);
           });
         },

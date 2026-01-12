@@ -70,7 +70,7 @@ export default function SignalWidget({ variant = 'dark' }: SignalWidgetProps) {
         isLight ? 'bg-white border border-gray-300' : 'bg-black border border-zinc-800'
       } ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}>
         <div className="relative p-6 text-center">
-          <button onClick={() => setIsOpen(false)} className={`absolute top-4 right-4 ${isLight ? 'text-gray-400 hover:text-gray-800' : 'text-zinc-600 hover:text-zinc-400'}`}>
+          <button onClick={() => setIsOpen(false)} className={`absolute top-4 right-4 ${isLight ? 'text-gray-400 hover:text-gray-800' : 'text-zinc-600 hover:text-zinc-400'}`} suppressHydrationWarning>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
           </button>
           <h2 className={`mb-6 text-base font-light tracking-[0.3em] uppercase ${isLight ? 'text-gray-800' : 'text-white'}`}>Transmit Signal</h2>
@@ -109,7 +109,7 @@ export default function SignalWidget({ variant = 'dark' }: SignalWidgetProps) {
               />
               {errors.message && <p className="text-xs text-[#ec4899] font-light mt-1">⚠ {errors.message}</p>}
             </div>
-            <button type="submit" disabled={isTransmitting} className="w-full py-4 mt-4 flex items-center justify-center gap-2 group disabled:opacity-50">
+            <button type="submit" disabled={isTransmitting} className="w-full py-4 mt-4 flex items-center justify-center gap-2 group disabled:opacity-50" suppressHydrationWarning>
               {isTransmitting ? <span className="text-xs animate-pulse text-gray-500">TRANSMITTING...</span> : (
                 <div className="flex gap-2 items-center justify-center">
                   {[1,2,3,4].map(i => <div key={i} className="w-3 h-3 bg-zinc-600 transition-all group-hover:bg-zinc-500" />)}

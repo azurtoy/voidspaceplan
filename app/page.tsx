@@ -135,6 +135,10 @@ export default function LoginPage() {
           return;
         }
         if (data.session) {
+          // Ensure browser has fully recorded the session cookie in memory
+          await supabase.auth.getSession();
+          // Give browser physical time to write cookie to disk
+          await new Promise(resolve => setTimeout(resolve, 500));
           setIsTransitioning(true);
           setTimeout(() => window.location.href = '/station', 1500);
         }
@@ -182,17 +186,17 @@ export default function LoginPage() {
           <div className="w-full max-w-sm bg-white border border-gray-300 p-8 shadow-lg text-center">
             <h2 className="text-xl font-light tracking-[0.3em] text-gray-800 mb-4 uppercase">Initialization Successful</h2>
             <p className="text-xs text-gray-600 font-light mb-6">Verification link transmitted to your email.</p>
-            <button onClick={() => { setShowSuccessModal(false); setIsSignUp(false); router.push('/'); }} className="w-full py-3 border border-gray-800 text-xs font-light tracking-wide text-gray-800 hover:bg-gray-800 hover:text-white transition-colors">CONFIRM</button>
+            <button onClick={() => { setShowSuccessModal(false); setIsSignUp(false); router.push('/'); }} className="w-full py-3 border border-gray-800 text-xs font-light tracking-wide text-gray-800 hover:bg-gray-800 hover:text-white transition-colors" suppressHydrationWarning>CONFIRM</button>
           </div>
         </div>
       )}
       {!showForm ? (
-        <button onClick={handleDotClick} className="relative group focus:outline-none">
+        <button onClick={handleDotClick} className="relative group focus:outline-none" suppressHydrationWarning>
           <div className="w-3 h-3 bg-gray-800 rounded-full animate-pulse shadow-lg hover:scale-110 transition-transform" />
         </button>
       ) : (
         <div className="w-full max-w-sm px-8 animate-fade-in">
-          <div className="flex justify-center mb-8"><button onClick={handleDotClick} className="w-2 h-2 bg-gray-400 rounded-full hover:bg-gray-600 transition-colors" /></div>
+          <div className="flex justify-center mb-8"><button onClick={handleDotClick} className="w-2 h-2 bg-gray-400 rounded-full hover:bg-gray-600 transition-colors" suppressHydrationWarning /></div>
           <form onSubmit={isForgotPassword ? handleForgotPassword : handleSubmit} className="space-y-4" noValidate>
             {isForgotPassword ? (
               <>
@@ -202,12 +206,12 @@ export default function LoginPage() {
                   {forgotPasswordSuccess && <p className="text-xs text-gray-500 font-light mt-2">■ Reset link transmitted to your email</p>}
                 </div>
                 {error && <p className="text-xs text-[#ec4899] font-light mt-2">⚠ {error}</p>}
-                <button type="submit" disabled={isPending} className="w-full py-6 mt-4 flex items-center justify-center gap-2 group disabled:opacity-50">
+                <button type="submit" disabled={isPending} className="w-full py-6 mt-4 flex items-center justify-center gap-2 group disabled:opacity-50" suppressHydrationWarning>
                   {isPending ? <span className="text-xs animate-pulse uppercase">Transmitting...</span> : (
                     <div className="flex gap-2">{[1,2,3,4].map(i => <div key={i} className="w-3 h-3 bg-gray-800 transition-all group-hover:shadow-[0_0_10px_rgba(0,0,0,0.5)]" />)}</div>
                   )}
                 </button>
-                <button type="button" onClick={() => setIsForgotPassword(false)} className="w-full text-xs text-gray-500 hover:text-gray-800 transition-colors font-light tracking-wide mt-4 uppercase text-center block">Return</button>
+                <button type="button" onClick={() => setIsForgotPassword(false)} className="w-full text-xs text-gray-500 hover:text-gray-800 transition-colors font-light tracking-wide mt-4 uppercase text-center block" suppressHydrationWarning>Return</button>
               </>
             ) : (
               <>
@@ -264,13 +268,13 @@ export default function LoginPage() {
                   </div>
                 )}
                 {error && <p className="text-xs text-[#ec4899] font-light mt-2">⚠ {error}</p>}
-                {showForgotLink && !isSignUp && (<button type="button" onClick={() => setIsForgotPassword(true)} className="w-full text-[10px] text-gray-400 underline hover:text-gray-600 transition-colors font-light mt-2 uppercase">Forgot Password?</button>)}
-                <button type="submit" disabled={isPending} className="w-full py-6 mt-4 flex items-center justify-center gap-2 group">
+                {showForgotLink && !isSignUp && (<button type="button" onClick={() => setIsForgotPassword(true)} className="w-full text-[10px] text-gray-400 underline hover:text-gray-600 transition-colors font-light mt-2 uppercase" suppressHydrationWarning>Forgot Password?</button>)}
+                <button type="submit" disabled={isPending} className="w-full py-6 mt-4 flex items-center justify-center gap-2 group" suppressHydrationWarning>
                   {isPending ? <span className="text-xs animate-pulse uppercase">Transmitting...</span> : (
                     <div className="flex gap-2">{[1,2,3,4].map(i => <div key={i} className="w-3 h-3 bg-gray-800 transition-all group-hover:shadow-[0_0_10px_rgba(0,0,0,0.5)]" />)}</div>
                   )}
                 </button>
-                <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="w-full text-xs text-gray-500 hover:text-gray-800 transition-colors font-light tracking-wide mt-6 uppercase">{isSignUp ? 'Return' : 'Create'}</button>
+                <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="w-full text-xs text-gray-500 hover:text-gray-800 transition-colors font-light tracking-wide mt-6 uppercase" suppressHydrationWarning>{isSignUp ? 'Return' : 'Create'}</button>
               </>
             )}
           </form>
